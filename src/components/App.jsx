@@ -25,15 +25,17 @@ export const App = () => {
 
  const handleChange = event => {
     setInput(event.target.value);
+    setNoResults(false);
   };
 
   useEffect(() => {
      if (page === 0) return;
-
+    setNoResults(false);
+    
     const fetchImagesByQuery = async searchQuery => {
       setIsLoading(true);
       setError(null);
-      setNoResults(false);
+
       try {
         const response = await fetchImages(searchQuery, page);
         setImages(prevState => [...prevState, ...response.hits]);
@@ -61,6 +63,9 @@ export const App = () => {
             )         
       return;
     }
+    if (query === input) {
+      return;
+    };
     setImages([]);
     setPage(1);
     setQuery(input);
